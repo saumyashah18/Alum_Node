@@ -33,7 +33,7 @@ export default function AlumniTable({ alumni: initialAlumni, projectId }: Alumni
     // Determine columns dynamically from ALL data (not just filtered)
     // This ensures all columns are visible even when filtering
     // Show ALL columns from the imported Excel data
-    const allKeys = Array.from(new Set(initialAlumni.flatMap(a => {
+    const allKeys = Array.from(new Set(initialAlumni.flatMap((a: Alumnus) => {
         if (a.data && typeof a.data === 'object') {
             return Object.keys(a.data)
         }
