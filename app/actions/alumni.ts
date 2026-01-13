@@ -145,10 +145,10 @@ export async function getFilterOptions(projectId: string) {
         }
 
         // Parse all data and collect unique column names
-        const allData = alumni.map((a: typeof alumni[0]) => a.data ? JSON.parse(a.data) : {})
+        const allData: Record<string, any>[] = alumni.map((a: typeof alumni[0]) => a.data ? JSON.parse(a.data) : {})
         const columnNames = new Set<string>()
 
-        allData.forEach(data => {
+        allData.forEach((data: Record<string, any>) => {
             Object.keys(data).forEach(key => columnNames.add(key))
         })
 
@@ -158,7 +158,7 @@ export async function getFilterOptions(projectId: string) {
         columnNames.forEach(column => {
             const uniqueValues = new Set<string>()
 
-            allData.forEach(data => {
+            allData.forEach((data: Record<string, any>) => {
                 const value = data[column]
                 if (value !== null && value !== undefined && value !== '') {
                     uniqueValues.add(String(value))
