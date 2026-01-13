@@ -15,7 +15,7 @@ export default async function ProjectsPage() {
             <div className="projects-grid">
                 <CreateProjectForm />
 
-                {projects.map((project) => (
+                {projects.map((project: any) => (
                     <div key={project.id} className="project-card card">
                         <div className="project-info">
                             <h3>{project.name}</h3>
