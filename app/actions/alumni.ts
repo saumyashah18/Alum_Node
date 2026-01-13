@@ -23,7 +23,7 @@ export async function getAlumni(params: FilterParams) {
         // Parse the JSON data field and type it properly
         type AlumnusWithParsedData = Omit<typeof rawAlumni[0], 'data'> & { data: Record<string, any> }
 
-        let alumni: AlumnusWithParsedData[] = rawAlumni.map((a): AlumnusWithParsedData => ({
+        let alumni: AlumnusWithParsedData[] = rawAlumni.map((a: typeof rawAlumni[0]): AlumnusWithParsedData => ({
             ...a,
             data: (a.data ? JSON.parse(a.data) : {}) as Record<string, any>
         }))
