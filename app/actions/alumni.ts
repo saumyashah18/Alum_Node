@@ -145,7 +145,7 @@ export async function getFilterOptions(projectId: string) {
         }
 
         // Parse all data and collect unique column names
-        const allData = alumni.map(a => a.data ? JSON.parse(a.data) : {})
+        const allData = alumni.map((a: typeof alumni[0]) => a.data ? JSON.parse(a.data) : {})
         const columnNames = new Set<string>()
 
         allData.forEach(data => {
