@@ -30,16 +30,16 @@ export async function exportToExcel(params: ExportParams) {
         if (alumni.length === 0) return { error: 'No data to export' }
 
         // Determine all columns from the data
-        const allKeys = Array.from(new Set(alumni.flatMap(a => Object.keys(a.data || {}))))
+        const allKeys: string[] = Array.from(new Set(alumni.flatMap((a: any) => Object.keys(a.data || {}))))
         const columns = allKeys
 
-        worksheet.columns = columns.map(col => ({
+        worksheet.columns = columns.map((col: string) => ({
             header: col.charAt(0).toUpperCase() + col.slice(1),
             key: col,
             width: 20
         }))
 
-        alumni.forEach(person => {
+        alumni.forEach((person: any) => {
             const rowData: Record<string, string | number | null | undefined> = { ...person.data }
             worksheet.addRow(rowData)
         })

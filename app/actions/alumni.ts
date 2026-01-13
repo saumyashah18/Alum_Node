@@ -54,7 +54,7 @@ export async function getAlumni(params: FilterParams) {
             })
         }
 
-        return alumni
+        return alumni as any
     } catch (error) {
         console.error('Error in getAlumni:', error)
         return []
@@ -110,7 +110,7 @@ export async function bulkDeleteAlumni(params: FilterParams) {
 
         // Get all alumni that match the filters
         const alumniToDelete = await getAlumni(params)
-        const idsToDelete = alumniToDelete.map(a => a.id)
+        const idsToDelete = alumniToDelete.map((a: any) => a.id)
 
         if (idsToDelete.length === 0) {
             return { success: true, count: 0 }
