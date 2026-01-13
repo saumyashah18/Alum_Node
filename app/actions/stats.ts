@@ -27,11 +27,11 @@ export async function getDashboardStats() {
             totalProjects,
             totalAlumni,
             batchData: batchStats
-                .filter(s => s.batch !== null)
-                .map(s => ({ name: s.batch as string, value: s._count._all })),
+                .filter((s: typeof batchStats[0]) => s.batch !== null)
+                .map((s: typeof batchStats[0]) => ({ name: s.batch as string, value: s._count._all })),
             orgData: orgStats
-                .filter(s => s.organization !== null)
-                .map(s => ({ name: s.organization as string, value: s._count._all }))
+                .filter((s: typeof orgStats[0]) => s.organization !== null)
+                .map((s: typeof orgStats[0]) => ({ name: s.organization as string, value: s._count._all }))
         }
     } catch (error) {
         console.error(error)
