@@ -79,21 +79,24 @@ export default function FilterSidebar({ filterOptions }: FilterSidebarProps) {
         />
       </div>
 
-      {columnNames.map(column => (
-        <div key={column} className="filter-group">
-          <label>{column}</label>
-          <select
-            value={filters[column] || ''}
-            onChange={(e) => handleFilterChange(column, e.target.value)}
-            className="filter-input"
-          >
-            <option value="">All {column}</option>
-            {filterOptions[column].map(value => (
-              <option key={value} value={value}>{value}</option>
-            ))}
-          </select>
-        </div>
-      ))}
+      {columnNames.map(column => {
+        const displayName = column.split(/[_\s]/).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+        return (
+          <div key={column} className="filter-group">
+            <label>{displayName}</label>
+            <select
+              value={filters[column] || ''}
+              onChange={(e) => handleFilterChange(column, e.target.value)}
+              className="filter-input"
+            >
+              <option value="">All {displayName}</option>
+              {filterOptions[column].map(value => (
+                <option key={value} value={value}>{value}</option>
+              ))}
+            </select>
+          </div>
+        )
+      })}
 
       {hasActiveFilters && (
         <button className="btn btn-outline" onClick={resetFilters}>

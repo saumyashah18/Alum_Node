@@ -12,6 +12,8 @@ export default function FileUpload({ projectId }: FileUploadProps) {
   const [message, setMessage] = useState('')
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
 
+  const [importMode, setImportMode] = useState<'replace' | 'append'>('replace')
+
   async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (!file) return
@@ -30,11 +32,12 @@ export default function FileUpload({ projectId }: FileUploadProps) {
       const formData = new FormData()
       formData.append('projectId', projectId)
       formData.append('file', selectedFile)
+      formData.append('importMode', importMode)
 
       const result = await importData(formData)
 
       if (result.success) {
-        setMessage(`✅ Successfully imported ${result.count} alumni records!`)
+        setMessage(`✅ Successfully ${importMode === 'replace' ? 'replaced' : 'appended'} ${result.count} alumni records!`)
         setSelectedFile(null)
         // Reset file input
         const input = document.querySelector('input[type="file"]') as HTMLInputElement
@@ -51,11 +54,28 @@ export default function FileUpload({ projectId }: FileUploadProps) {
 
   return (
     <div className="file-upload">
-      <p className="upload-description">
-        Upload an Excel (.xlsx) or CSV file (up to 500MB).
-        <br />
-        <small>The file will replace all existing records in this project.</small>
-      </p>
+      <div className="import-mode-selector" style={{ marginBottom: '1rem', display: 'flex', gap: '1.5rem', fontSize: '0.9rem' }}>
+        <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+          <input
+            type="radio"
+            name="importMode"
+            value="replace"
+            checked={importMode === 'replace'}
+            onChange={() => setImportMode('replace')}
+          />
+          <strong>Replace Existing</strong>
+        </label>
+        <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+          <input
+            type="radio"
+            name="importMode"
+            value="append"
+            checked={importMode === 'append'}
+            onChange={() => setImportMode('append')}
+          />
+          <strong>Append to Existing</strong>
+        </label>
+      </div>
 
       <div className="upload-container">
         <label className={`upload-label ${uploading ? 'disabled' : ''}`}>
